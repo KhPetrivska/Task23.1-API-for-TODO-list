@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-const { Schema, model } = mongoose
+const { Schema, model } = mongoose;
 
-const todoSchema = new Schema ({
-    text: String
-})
+const todoSchema = new Schema({
+  text: String,
+});
 
-const Todo = model('Todo', todoSchema)
+const Todo = model("Todo", todoSchema);
 
-export default  Todo
+export default Todo;

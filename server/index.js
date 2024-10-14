@@ -3,12 +3,14 @@ const path = require("path");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
-const dbUrl = "mongodb+srv://kristinpetrivska:uD9SgHENyxeqSgYK@cluster23todolist.dggb9.mongodb.net/todo?retryWrites=true&w=majority&appName=Cluster23ToDoList";
+const dbUrl =
+  "mongodb+srv://kristinpetrivska:uD9SgHENyxeqSgYK@cluster23todolist.dggb9.mongodb.net/todo?retryWrites=true&w=majority&appName=Cluster23ToDoList";
 
 // Connect to MongoDB and handle connection errors
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("DB connected"))
-  .catch(err => console.error("DB connection error:", err));
+  .catch((err) => console.error("DB connection error:", err));
 
 const db = mongoose.connection;
 
@@ -47,7 +49,7 @@ app.get("/styles.css", (req, res) => {
 // Load the Todo model dynamically
 let Todo;
 const loadTodoModel = async () => {
-  Todo = (await import('./Todo.mjs')).default;
+  Todo = (await import("./Todo.mjs")).default;
 };
 
 loadTodoModel();
@@ -55,9 +57,9 @@ loadTodoModel();
 // GET all todo items
 app.get("/list", (req, res) => {
   Todo.find()
-    .then(todoList => res.send(todoList))
-    .catch(err => {
-      console.log('Error reading todo list', err);
+    .then((todoList) => res.send(todoList))
+    .catch((err) => {
+      console.log("Error reading todo list", err);
       return res.status(500).send(err);
     });
 });
@@ -65,23 +67,24 @@ app.get("/list", (req, res) => {
 // POST a new todo item
 app.post("/list-item", (req, res) => {
   const { text } = req.body;
-  
+
   // Validate the text field
   if (!text) {
     return res.status(400).send("Task text is required");
   }
 
   const todoItem = new Todo({
-    text: text 
+    text: text,
   });
 
-  return todoItem.save()
-    .then(todo => {
-      console.log('Todo created', todo);
+  return todoItem
+    .save()
+    .then((todo) => {
+      console.log("Todo created", todo);
       return res.send(todo._id);
     })
-    .catch(err => {
-      console.log('Error creating todo list item', err);
+    .catch((err) => {
+      console.log("Error creating todo list item", err);
       return res.status(500).send(err);
     });
 });
@@ -93,21 +96,20 @@ app.put("/list-item/:id", async (req, res) => {
   if (!ObjectId.isValid(id)) {
     return res.status(400).send("Invalid ID");
   }
-  
+
   try {
     const todo = await Todo.findByIdAndUpdate(new ObjectId(id), { text });
     if (!todo) {
       return res.status(404).send("Todo item not found");
     }
-    console.log('Todo is updated', todo);
+    console.log("Todo is updated", todo);
     return res.send(todo._id);
   } catch (err) {
-    console.log('Error updating todo list item', err);
+    console.log("Error updating todo list item", err);
     return res.status(500).send(err);
   }
 });
 
-  
 // DELETE a todo item
 app.delete("/list-item/:id", async (req, res) => {
   const { id } = req.params;

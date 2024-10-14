@@ -1,29 +1,29 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './server/index.js', 
+  entry: "./server/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
   },
-  mode: 'development',
+  mode: "development",
   module: {
     rules: [
       {
-        test: /\.js$/, 
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
         },
       },
       {
-        test: /\.css$/, 
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
-    port: 3000, 
+    static: path.resolve(__dirname, "dist"),
+    port: 3000,
   },
 };

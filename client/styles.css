@@ -1,12 +1,12 @@
 .todo-list {
-    padding-left: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.todo-list-item-text{
- display: inline-block;
- width: 300px;   
+.todo-list-item-text {
+  display: inline-block;
+  width: 300px;
 }
