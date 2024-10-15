@@ -77,7 +77,7 @@ todoListEl.addEventListener("click", async () => {
         return;
       }
 
-      const taskId = todoItemEl.id; // Make sure this is defined
+      const taskId = todoItemEl.id; 
       if (!taskId) {
         console.error("No task ID found for update");
         return;

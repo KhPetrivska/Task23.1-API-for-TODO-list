@@ -6,7 +6,7 @@ const { ObjectId } = mongoose.Types;
 const dbUrl =
   "mongodb+srv://kristinpetrivska:uD9SgHENyxeqSgYK@cluster23todolist.dggb9.mongodb.net/todo?retryWrites=true&w=majority&appName=Cluster23ToDoList";
 
-// Connect to MongoDB and handle connection errors
+
 mongoose
   .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("DB connected"))
@@ -24,29 +24,29 @@ db.once("open", () => {
 
 const app = express();
 
-// Serve static files from the client directory
+
 app.use(express.static(path.join(__dirname, "../client")));
 app.use(express.json());
 
-// Serve index.html on root path
+
 app.get("/", (req, res) => {
   const indexPath = path.join(__dirname, "../client/index.html");
   res.sendFile(indexPath);
 });
 
-// Serve index.js
+
 app.get("/index.js", (req, res) => {
   const indexPath = path.join(__dirname, "../client/index.js");
   res.sendFile(indexPath);
 });
 
-// Serve styles.css
+
 app.get("/styles.css", (req, res) => {
   const indexPath = path.join(__dirname, "../client/styles.css");
   res.sendFile(indexPath);
 });
 
-// Load the Todo model dynamically
+
 let Todo;
 const loadTodoModel = async () => {
   Todo = (await import("./Todo.mjs")).default;
@@ -54,7 +54,7 @@ const loadTodoModel = async () => {
 
 loadTodoModel();
 
-// GET all todo items
+
 app.get("/list", (req, res) => {
   Todo.find()
     .then((todoList) => res.send(todoList))
@@ -64,11 +64,10 @@ app.get("/list", (req, res) => {
     });
 });
 
-// POST a new todo item
 app.post("/list-item", (req, res) => {
   const { text } = req.body;
 
-  // Validate the text field
+
   if (!text) {
     return res.status(400).send("Task text is required");
   }
@@ -89,7 +88,7 @@ app.post("/list-item", (req, res) => {
     });
 });
 
-// PUT to update an existing todo item
+
 app.put("/list-item/:id", async (req, res) => {
   const { id } = req.params;
   const { text } = req.body;
@@ -110,11 +109,11 @@ app.put("/list-item/:id", async (req, res) => {
   }
 });
 
-// DELETE a todo item
+
 app.delete("/list-item/:id", async (req, res) => {
   const { id } = req.params;
 
-  // Validate the ObjectId
+ 
   if (!ObjectId.isValid(id)) {
     return res.status(400).send("Invalid todo item ID");
   }
@@ -132,7 +131,7 @@ app.delete("/list-item/:id", async (req, res) => {
   }
 });
 
-// Set the server to listen on a specific port
+
 const port = process.env.PORT || 5556;
 const host = process.env.HOST || "localhost";
 
